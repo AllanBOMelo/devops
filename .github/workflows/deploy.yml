@@ -37,16 +37,16 @@ jobs:
 
       - name: Construir imagem Docker
         run: |
-          docker build -t meu_usuario/meu_app:${{ github.sha }} .
-          docker tag meu_usuario/meu_app:${{ github.sha }} meu_usuario/meu_app:latest
+          docker build -t allanoruivo/meu_app:${{ github.sha }} .
+          docker tag allanoruivo/meu_app:${{ github.sha }} allanoruivo/meu_app:latest
 
       - name: Verificar login no Docker Hub
         run: docker info
   
       - name: Publicar no Docker Hub
         run: |
-          docker push meu_usuario/meu_app:${{ github.sha }}
-          docker push meu_usuario/meu_app:latest
+          docker push allanoruivo/meu_app:${{ github.sha }}
+          docker push allanoruivo/meu_app:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -59,7 +59,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            docker pull meu_usuario/meu_app:latest
+            docker pull allanoruivo/meu_app:latest
             docker stop fastapi_app || true
             docker rm fastapi_app || true
-            docker run -d --name fastapi_app -p 8002:8000 meu_usuario/meu_app:latest
+            docker run -d --name fastapi_app -p 8002:8000 allanoruivo/meu_app:latest
