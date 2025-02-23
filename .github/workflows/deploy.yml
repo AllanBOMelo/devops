@@ -40,6 +40,9 @@ jobs:
           docker build -t meu_usuario/meu_app:${{ github.sha }} .
           docker tag meu_usuario/meu_app:${{ github.sha }} meu_usuario/meu_app:latest
 
+      - name: Verificar login no Docker Hub
+        run: docker info
+  
       - name: Publicar no Docker Hub
         run: |
           docker push meu_usuario/meu_app:${{ github.sha }}
