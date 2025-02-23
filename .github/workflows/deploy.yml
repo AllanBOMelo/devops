@@ -19,7 +19,7 @@ jobs:
 
       - name: Instalar dependências
         run: |
-          pip install -r fastapi uvicorn sqlalchemy pymysql cryptography python-dotenv
+          pip install fastapi uvicorn sqlalchemy pymysql cryptography python-dotenv
           pip install pytest httpx
 
       - name: Executar testes
