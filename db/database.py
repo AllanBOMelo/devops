@@ -4,7 +4,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
 
-
 user = os.getenv("DB_USER")
 password = os.getenv("DB_PASSWORD")
 

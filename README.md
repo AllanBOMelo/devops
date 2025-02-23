@@ -8,6 +8,12 @@ Para a criação das imagens da API e do banco de dados, execute o comando:
 docker-compose build
 ```
 
+Ou
+
+```sh
+docker-compose up --build
+```
+
 ## Rodar o Container
 
 Para criação e execução do container, execute:
