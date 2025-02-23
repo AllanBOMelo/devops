@@ -37,7 +37,7 @@ jobs:
           echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}"
           echo "DOCKER_PASSWORD length=${#secrets.DOCKER_PASSWORD}"
 
-            - name: Login no Docker Hub
+      - name: Login no Docker Hub
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
