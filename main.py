@@ -3,10 +3,17 @@ from sqlalchemy.orm import Session
 from db.database import SessionLocal, engine
 from db.schema import Base
 from services import create_user, get_user, get_users, update_user, delete_user
-
+from pydantic import BaseModel
 
 Base.metadata.create_all(bind=engine)
 app = FastAPI()
+
+class User(BaseModel):
+    id: int
+    name: str
+    email: str
+
+users_db = {}
 
 def get_db():
     db = SessionLocal()
@@ -21,44 +28,33 @@ def status():
     return {"status": "running"}
 
 
-@app.post("/users/")
-def create_user_endpoint(name: str, email: str, db: Session = Depends(get_db)):
-    return create_user(db=db, name=name, email=email)
-
+@app.post("/users/", status_code=201)
+def create_user(user: User):
+    if user.id in users_db:
+        raise HTTPException(status_code=422, detail="User already exists")
+    users_db[user.id] = user
+    return user
 
 @app.get("/users/{user_id}")
-def read_user(user_id: int, db: Session = Depends(get_db)):
-    try:
-        db_user = get_user(db, user_id)
-        if db_user is None:
-            raise HTTPException(status_code=404, detail="User not found")
-        return db_user
-    except Exception as e:
-        return {"error": str(e)}
-
+def read_user(user_id: int):
+    if user_id not in users_db:
+        raise HTTPException(status_code=404, detail="User not found")
+    return users_db[user_id]
 
 @app.get("/users/")
-def read_users(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
-    return get_users(db=db, skip=skip, limit=limit)
-
+def read_users():
+    return list(users_db.values())
 
 @app.put("/users/{user_id}")
-def update_user_endpoint(user_id: int, name: str, email: str, db: Session = Depends(get_db)):
-    try:
-        db_user = update_user(db=db, user_id=user_id, name=name, email=email)
-        if db_user is None:
-            raise HTTPException(status_code=404, detail="User not found")
-        return db_user
-    except Exception as e:
-        return {"error": str(e)}
+def update_user(user_id: int, user: User):
+    if user_id not in users_db:
+        raise HTTPException(status_code=404, detail="User not found")
+    users_db[user_id] = user
+    return user
 
-
-@app.delete("/users/{user_id}")
-def delete_user_endpoint(user_id: int, db: Session = Depends(get_db)):
-    try:
-        db_user = delete_user(db=db, user_id=user_id)
-        if db_user is None:
-            raise HTTPException(status_code=404, detail="User not found")
-        return {"message": "User deleted successfully"}
-    except Exception as e:
-        return {"error": str(e)}
+@app.delete("/users/{user_id}", status_code=204)
+def delete_user(user_id: int):
+    if user_id not in users_db:
+        raise HTTPException(status_code=404, detail="User not found")
+    del users_db[user_id]
+    return {"detail": "User deleted"}

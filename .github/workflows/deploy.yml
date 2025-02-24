@@ -22,8 +22,8 @@ jobs:
           pip install fastapi uvicorn sqlalchemy pymysql cryptography python-dotenv
           pip install pytest httpx
 
-      # - name: Executar testes
-      #   run: pytest tests/
+      - name: Executar testes
+         run: pytest tests/
 
   build-and-push-docker:
     runs-on: ubuntu-latest
