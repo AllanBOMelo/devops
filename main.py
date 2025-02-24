@@ -41,10 +41,6 @@ def read_user(user_id: int):
         raise HTTPException(status_code=404, detail="User not found")
     return users_db[user_id]
 
-@app.get("/users/")
-def read_users():
-    return list(users_db.values())
-
 @app.put("/users/{user_id}")
 def update_user(user_id: int, user: User):
     if user_id not in users_db:
