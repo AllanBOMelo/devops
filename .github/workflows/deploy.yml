@@ -40,9 +40,6 @@ jobs:
           docker build -t allanoruivo/meu_app:${{ github.sha }} .
           docker tag allanoruivo/meu_app:${{ github.sha }} allanoruivo/meu_app:latest
 
-      - name: Verificar login no Docker Hub
-        run: docker info
-  
       - name: Publicar no Docker Hub
         run: |
           docker push allanoruivo/meu_app:${{ github.sha }}
@@ -59,7 +56,9 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            docker pull allanoruivo/meu_app:latest
-            docker stop fastapi_app || true
-            docker rm fastapi_app || true
-            docker run -d --name fastapi_app -p 8002:8000 allanoruivo/meu_app:latest
+            git clone https://github.com/AllanBOMelo/devops.git devops_fastapi
+            cd devops_fastapi
+            echo DB_USER=${{ secrets.DB_USER }} >> .env
+            echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
+            echo DATABASE_URL=mysql+pymysql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@db/users >> .env
+            docker compose up --env-file .env --build -d
