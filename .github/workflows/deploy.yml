@@ -58,6 +58,7 @@ jobs:
           script: |
             git clone https://github.com/AllanBOMelo/devops.git devops_fastapi
             cd devops_fastapi
+            docker compose down
             echo DB_USER=${{ secrets.DB_USER }} >> .env
             echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
             echo DATABASE_URL=mysql+pymysql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@db/users >> .env
