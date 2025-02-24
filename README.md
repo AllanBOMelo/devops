@@ -31,3 +31,4 @@ A API referente, se trata de um CRUD simples para criação de usuarios através
 - `GET /users/{user_id}` - Retorna usuario pelo ID.
 - `PUT /users/{user_id}` - Atualiza usuario pelo ID.
 - `DELETE /users/{user_id}"` - Deleta um usuario pelo ID.
+a
