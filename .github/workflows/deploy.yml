@@ -61,4 +61,4 @@ jobs:
             echo DB_USER=${{ secrets.DB_USER }} >> .env
             echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
             echo DATABASE_URL=mysql+pymysql://${{ secrets.DB_USER }}:${{ secrets.DB_PASSWORD }}@db/users >> .env
-            docker compose up --env-file .env --build -d
+            docker compose up --build -d
