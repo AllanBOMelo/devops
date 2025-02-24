@@ -26,9 +26,10 @@ docker-compose up
 
 A API referente, se trata de um CRUD simples para criação de usuarios através das seguintes rotas:
 
+- `GET /status/` - Retorna Status da API
 - `GET /users/` - Listar usuarios.
 - `POST /users/"` - Cadastrar usuario.
 - `GET /users/{user_id}` - Retorna usuario pelo ID.
 - `PUT /users/{user_id}` - Atualiza usuario pelo ID.
 - `DELETE /users/{user_id}"` - Deleta um usuario pelo ID.
-a
+  a
